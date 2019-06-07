@@ -17,13 +17,15 @@ package net.benmclean.quakequestswitcher;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-/** Loads {@link PlaybackVideoFragment}. */
+/**
+ * Loads {@link PlaybackVideoFragment}.
+ */
 public class PlaybackActivity extends FragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if( savedInstanceState == null ){
+        if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(android.R.id.content, new PlaybackVideoFragment())

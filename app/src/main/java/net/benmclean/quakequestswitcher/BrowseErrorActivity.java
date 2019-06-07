@@ -13,10 +13,10 @@
  */
 package net.benmclean.quakequestswitcher;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +27,7 @@ import android.widget.ProgressBar;
 /*
  * BrowseErrorActivity shows how to use ErrorFragment
  */
-public class BrowseErrorActivity extends Activity {
+public class BrowseErrorActivity extends FragmentActivity {
     private static final int TIMER_DELAY = 3000;
     private static final int SPINNER_WIDTH = 100;
     private static final int SPINNER_HEIGHT = 100;
@@ -48,13 +48,13 @@ public class BrowseErrorActivity extends Activity {
 
     private void testError() {
         mErrorFragment = new ErrorFragment();
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.main_browse_fragment, mErrorFragment)
                 .commit();
 
         mSpinnerFragment = new SpinnerFragment();
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.main_browse_fragment, mSpinnerFragment)
                 .commit();
@@ -63,7 +63,7 @@ public class BrowseErrorActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                getFragmentManager()
+                getSupportFragmentManager()
                         .beginTransaction()
                         .remove(mSpinnerFragment)
                         .commit();

@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
- 
+
 package net.benmclean.quakequestswitcher;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public final class MovieList {
     private static long count = 0;
 
     public static List<Movie> getList() {
-        if( list == null ) {
+        if (list == null) {
             list = setupMovies();
         }
         return list;
@@ -54,7 +54,7 @@ public final class MovieList {
                 + "facilisis mattis. Ut aliquet luctus lacus. Phasellus nec commodo erat. Praesent tempus id "
                 + "lectus ac scelerisque. Maecenas pretium cursus lectus id volutpat.";
         String studio[] = {
-            "Studio Zero", "Studio One", "Studio Two", "Studio Three", "Studio Four"
+                "Studio Zero", "Studio One", "Studio Two", "Studio Three", "Studio Four"
         };
         String videoUrl[] = {
                 "http://commondatastorage.googleapis.com/android-tv/Sample%20videos/Zeitgeist/Zeitgeist%202010_%20Year%20in%20Review.mp4",

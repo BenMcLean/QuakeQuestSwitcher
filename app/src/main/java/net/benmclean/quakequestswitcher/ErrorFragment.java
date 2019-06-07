@@ -14,6 +14,7 @@
 package net.benmclean.quakequestswitcher;
 
 import android.os.Bundle;
+import android.support.v17.leanback.app.ErrorSupportFragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,7 @@ import android.view.View;
 /*
  * This class demonstrates how to extend ErrorFragment
  */
-public class ErrorFragment extends android.support.v17.leanback.app.ErrorFragment {
+public class ErrorFragment extends ErrorSupportFragment {
     private static final String TAG = "ErrorFragment";
     private static final boolean TRANSLUCENT = true;
 

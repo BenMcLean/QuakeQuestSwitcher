@@ -22,7 +22,9 @@ import android.support.v17.leanback.media.MediaPlayerAdapter;
 import android.support.v17.leanback.media.PlaybackTransportControlGlue;
 import android.support.v17.leanback.widget.PlaybackControlsRow;
 
-/** Handles video playback with media controls. */
+/**
+ * Handles video playback with media controls.
+ */
 public class PlaybackVideoFragment extends VideoSupportFragment {
 
     private PlaybackTransportControlGlue<MediaPlayerAdapter> mTransportControlGlue;

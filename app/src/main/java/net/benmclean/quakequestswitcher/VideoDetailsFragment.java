@@ -20,6 +20,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v17.leanback.app.DetailsFragment;
 import android.support.v17.leanback.app.DetailsFragmentBackgroundController;
+import android.support.v17.leanback.app.DetailsSupportFragment;
+import android.support.v17.leanback.app.DetailsSupportFragmentBackgroundController;
 import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ClassPresenterSelector;
@@ -52,7 +54,7 @@ import java.util.List;
  * LeanbackDetailsFragment extends DetailsFragment, a Wrapper fragment for leanback details screens.
  * It shows a detailed view of video and its meta plus related videos.
  */
-public class VideoDetailsFragment extends DetailsFragment {
+public class VideoDetailsFragment extends DetailsSupportFragment {
     private static final String TAG = "VideoDetailsFragment";
 
     private static final int ACTION_WATCH_TRAILER = 1;
@@ -69,17 +71,17 @@ public class VideoDetailsFragment extends DetailsFragment {
     private ArrayObjectAdapter mAdapter;
     private ClassPresenterSelector mPresenterSelector;
 
-    private DetailsFragmentBackgroundController mDetailsBackground;
+    private DetailsSupportFragmentBackgroundController mDetailsBackground;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate DetailsFragment");
         super.onCreate(savedInstanceState);
 
-        mDetailsBackground = new DetailsFragmentBackgroundController(this);
+        mDetailsBackground = new DetailsSupportFragmentBackgroundController(this);
 
         mSelectedMovie =
-                (Movie) getActivity().getIntent() .getSerializableExtra(DetailsActivity.MOVIE);
+                (Movie) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
         if (mSelectedMovie != null) {
             mPresenterSelector = new ClassPresenterSelector();
             mAdapter = new ArrayObjectAdapter(mPresenterSelector);
@@ -196,7 +198,7 @@ public class VideoDetailsFragment extends DetailsFragment {
             listRowAdapter.add(list.get(j % 5));
         }
 
-            HeaderItem header = new HeaderItem(0, subcategories[0]);
+        HeaderItem header = new HeaderItem(0, subcategories[0]);
         mAdapter.add(new ListRow(header, listRowAdapter));
         mPresenterSelector.addClassPresenter(ListRow.class, new ListRowPresenter());
     }
@@ -221,10 +223,10 @@ public class VideoDetailsFragment extends DetailsFragment {
 
                 Bundle bundle =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            getActivity(),
-                            ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                            DetailsActivity.SHARED_ELEMENT_NAME)
-                        .toBundle();
+                                getActivity(),
+                                ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                                DetailsActivity.SHARED_ELEMENT_NAME)
+                                .toBundle();
                 getActivity().startActivity(intent, bundle);
             }
         }

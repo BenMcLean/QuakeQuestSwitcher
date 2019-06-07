@@ -36,6 +36,14 @@ public class CardPresenter extends Presenter {
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;
 
+    private static void updateCardBackgroundColor(ImageCardView view, boolean selected) {
+        int color = selected ? sSelectedBackgroundColor : sDefaultBackgroundColor;
+        // Both background colors should be set because the view's background is temporarily visible
+        // during animations.
+        view.setBackgroundColor(color);
+        view.findViewById(R.id.info_field).setBackgroundColor(color);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         Log.d(TAG, "onCreateViewHolder");
@@ -64,14 +72,6 @@ public class CardPresenter extends Presenter {
         cardView.setFocusableInTouchMode(true);
         updateCardBackgroundColor(cardView, false);
         return new ViewHolder(cardView);
-    }
-
-    private static void updateCardBackgroundColor(ImageCardView view, boolean selected) {
-        int color = selected ? sSelectedBackgroundColor : sDefaultBackgroundColor;
-        // Both background colors should be set because the view's background is temporarily visible
-        // during animations.
-        view.setBackgroundColor(color);
-        view.findViewById(R.id.info_field).setBackgroundColor(color);
     }
 
     @Override
