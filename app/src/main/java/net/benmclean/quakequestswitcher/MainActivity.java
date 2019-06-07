@@ -14,13 +14,13 @@
 
 package net.benmclean.quakequestswitcher;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 /*
  * Main Activity class that loads {@link MainFragment}.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
