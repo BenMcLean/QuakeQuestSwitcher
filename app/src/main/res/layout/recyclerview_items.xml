@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="100sp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/filename_textview"
+    <Button
+        android:id="@+id/filename_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
         android:layout_marginTop="7dp"
         android:layout_marginBottom="7dp"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
 </LinearLayout>

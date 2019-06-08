@@ -86,13 +86,17 @@ public class MainActivity extends FragmentActivity implements RecyclerViewAdapte
 
     @Override
     public void onItemClick(int position) {
+        onItemClick(path + "/commandline/" + mAdapter.strings[position]);
+    }
+
+    @Override
+    public void onItemClick(String source) {
         askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_EXST);
 
-        String source = path + "/commandline/" + mAdapter.strings[position];
         String destination = path + "/commandline.txt";
         try {
             copyFile(new File(source), new File(destination));
-            Toast.makeText(this, "SUCCESS: overwrote commandline.txt with \"" + mAdapter.strings[position] + "\"", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "SUCCESS: overwrote commandline.txt with \"" + source + "\"", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "FAILED to copy \"" + source + "\" to \"" + destination + "\"!", Toast.LENGTH_LONG).show();

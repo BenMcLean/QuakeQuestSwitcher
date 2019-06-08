@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -21,14 +22,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView textView;
+        public Button button;
         public OnItemListener onItemListener;
 
         public ViewHolder(View v, OnItemListener onItemListener) {
             super(v);
-            textView = (TextView) v.findViewById(R.id.filename_textview);
+            button = (Button) v.findViewById(R.id.filename_button);
             this.onItemListener = onItemListener;
-            v.setOnClickListener(this);
+//            v.setOnClickListener(this);
+            button.setOnClickListener(this);
         }
 
         @Override
@@ -46,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textView.setText(strings[position]);
+        holder.button.setText(strings[position]);
     }
 
     @Override
@@ -56,5 +58,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public interface OnItemListener {
         void onItemClick(int position);
+        void onItemClick(String source);
     }
 }
