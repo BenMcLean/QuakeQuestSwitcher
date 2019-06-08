@@ -18,6 +18,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 
 public class MainActivity extends FragmentActivity implements RecyclerViewAdapter.OnItemListener {
     private String path;
@@ -46,7 +51,6 @@ public class MainActivity extends FragmentActivity implements RecyclerViewAdapte
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-//        askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE_EXST);
         askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST);
 
         File[] files = new File(path + "/commandline").listFiles();
@@ -66,16 +70,12 @@ public class MainActivity extends FragmentActivity implements RecyclerViewAdapte
 
     private void askForPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
-
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
-
                 //This is called if user has denied the permission before
                 //In this case I am just asking the permission again
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
-
             } else {
-
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
             }
         } else {
@@ -86,6 +86,31 @@ public class MainActivity extends FragmentActivity implements RecyclerViewAdapte
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(this, "You chose: \"" + mAdapter.strings[position] + "\"", Toast.LENGTH_SHORT).show();
+        askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_EXST);
+
+        String source = path + "/commandline/" + mAdapter.strings[position];
+        String destination = path + "/commandline.txt";
+        try {
+            copyFile(new File(source), new File(destination));
+            Toast.makeText(this, "SUCCESS: overwrote commandline.txt with \"" + mAdapter.strings[position] + "\"", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "FAILED to copy \"" + source + "\" to \"" + destination + "\"!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void copyFile(File sourceFile, File destFile) throws IOException {
+        if (!destFile.getParentFile().exists()) destFile.getParentFile().mkdirs();
+        if (!destFile.exists()) destFile.createNewFile();
+        FileChannel source = null;
+        FileChannel destination = null;
+        try {
+            source = new FileInputStream(sourceFile).getChannel();
+            destination = new FileOutputStream(destFile).getChannel();
+            destination.transferFrom(source, 0, source.size());
+        } finally {
+            if (source != null) source.close();
+            if (destination != null) destination.close();
+        }
     }
 }
