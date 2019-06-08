@@ -8,48 +8,53 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    protected String[] strings;
+    protected Context context;
+    protected View view;
+    protected ViewHolder viewHolder;
+    protected OnItemListener onItemListener;
 
-    String[] SubjectValues;
-    Context context;
-    View view1;
-    ViewHolder viewHolder1;
-
-    public RecyclerViewAdapter(Context context1, String[] SubjectValues1) {
-
-        SubjectValues = SubjectValues1;
-        context = context1;
+    public RecyclerViewAdapter(Context context, String[] strings, OnItemListener onItemListener) {
+        this.strings = strings;
+        this.context = context;
+        this.onItemListener = onItemListener;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView textView;
+        public OnItemListener onItemListener;
 
-        public ViewHolder(View v) {
-
+        public ViewHolder(View v, OnItemListener onItemListener) {
             super(v);
+            textView = (TextView) v.findViewById(R.id.filename_textview);
+            this.onItemListener = onItemListener;
+            v.setOnClickListener(this);
+        }
 
-            textView = (TextView) v.findViewById(R.id.subject_textview);
+        @Override
+        public void onClick(View v) {
+            onItemListener.onItemClick(getAdapterPosition());
         }
     }
 
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        view1 = LayoutInflater.from(context).inflate(R.layout.recyclerview_items, parent, false);
-
-        viewHolder1 = new ViewHolder(view1);
-
-        return viewHolder1;
+        view = LayoutInflater.from(context).inflate(R.layout.recyclerview_items, parent, false);
+        viewHolder = new ViewHolder(view, onItemListener);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-        holder.textView.setText(SubjectValues[position]);
+        holder.textView.setText(strings[position]);
     }
 
     @Override
     public int getItemCount() {
-        return SubjectValues.length;
+        return strings.length;
+    }
+
+    public interface OnItemListener {
+        void onItemClick(int position);
     }
 }

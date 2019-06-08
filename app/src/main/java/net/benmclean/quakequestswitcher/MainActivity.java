@@ -19,13 +19,13 @@ import android.widget.Toast;
 
 import java.io.File;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements RecyclerViewAdapter.OnItemListener {
     private String path;
     static final int WRITE_EXST = 0x3;
     static final int READ_EXST = 0x4;
     private final int request_code = 61996;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     String[] subjects = {"ANDROID", "PHP", "ASP.NET", "JAVA", "C++"};
 
@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity {
         for (int x = 0; x < listFiles.length; x++)
             listFiles[x] = files[x].getName();
 
-        mAdapter = new RecyclerViewAdapter(this, listFiles);
+        mAdapter = new RecyclerViewAdapter(this, listFiles, this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -82,5 +82,10 @@ public class MainActivity extends FragmentActivity {
 //            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
             Log.v("MainActivity", "" + permission + " is already granted.");
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(this, "You chose: \"" + mAdapter.strings[position] + "\"", Toast.LENGTH_SHORT).show();
     }
 }
