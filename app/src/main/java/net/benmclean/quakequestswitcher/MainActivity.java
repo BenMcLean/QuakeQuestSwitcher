@@ -14,11 +14,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
 
 public class MainActivity extends FragmentActivity {
+    private String path;
     static final int WRITE_EXST = 0x3;
     static final int READ_EXST = 0x4;
     private final int request_code = 61996;
@@ -32,6 +34,8 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        path = Environment.getExternalStorageDirectory().getPath() + "/QuakeQuest";
+
         recyclerView = (RecyclerView) findViewById(R.id.FileRecyclerView);
 
         // use this setting to improve performance if you know that changes
@@ -43,18 +47,17 @@ public class MainActivity extends FragmentActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 //        askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE_EXST);
-        askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE,READ_EXST);
+        askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST);
 
-        String path = "/storage/emulated/0";
+        File[] files = new File(path + "/commandline").listFiles();
 
-        File[] files = new File(path).listFiles();
-
-        if (files == null) throw new IllegalStateException("files is null when path is " + path);
-
-        if (files.length == 0) throw new IllegalStateException("files length is zero when path is " + path);
+        if (files == null || files.length < 1) {
+            Toast.makeText(this, path + "/commandline has no text files!", Toast.LENGTH_LONG).show();
+            return; // Can't go on to list files which aren't there.
+        }
 
         String[] listFiles = new String[files.length];
-        for (int x=0; x<listFiles.length; x++)
+        for (int x = 0; x < listFiles.length; x++)
             listFiles[x] = files[x].getName();
 
         mAdapter = new RecyclerViewAdapter(this, listFiles);
@@ -76,7 +79,8 @@ public class MainActivity extends FragmentActivity {
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
             }
         } else {
-            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
+            Log.v("MainActivity", "" + permission + " is already granted.");
         }
     }
 }
