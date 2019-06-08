@@ -13,7 +13,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context context;
     View view1;
     ViewHolder viewHolder1;
-    TextView textView;
 
     public RecyclerViewAdapter(Context context1, String[] SubjectValues1) {
 

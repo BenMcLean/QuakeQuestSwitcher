@@ -1,6 +1,11 @@
 package net.benmclean.quakequestswitcher;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.storage.StorageManager;
+import android.os.storage.StorageVolume;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,9 +31,9 @@ public class MainActivity extends FragmentActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        // specify an adapter (see also next example)
+        
+
         mAdapter = new RecyclerViewAdapter(this, subjects);
         recyclerView.setAdapter(mAdapter);
-
     }
 }
