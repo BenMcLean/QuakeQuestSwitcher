@@ -1,47 +1,43 @@
 package net.benmclean.quakequestswitcher;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.storage.StorageManager;
-import android.os.storage.StorageVolume;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.TextView;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
-import java.nio.file.Files;
+import java.io.*;
 
 public class MainActivity extends FragmentActivity implements RecyclerViewAdapter.OnItemListener {
-    private String path;
+    private String path = FilenameUtils.concat(
+            Environment.getExternalStorageDirectory().getPath(),
+            "QuakeQuest/commandline"
+    );
+    private String dest = FilenameUtils.concat(
+            Environment.getExternalStorageDirectory().getPath(),
+            "QuakeQuest/commandline.txt"
+    );
     static final int WRITE_EXST = 0x3;
     static final int READ_EXST = 0x4;
     private final int request_code = 61996;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    String[] subjects = {"ANDROID", "PHP", "ASP.NET", "JAVA", "C++"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        path = Environment.getExternalStorageDirectory().getPath() + "/QuakeQuest";
-
-        recyclerView = (RecyclerView) findViewById(R.id.FileRecyclerView);
+        recyclerView = findViewById(R.id.FileRecyclerView);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -53,10 +49,10 @@ public class MainActivity extends FragmentActivity implements RecyclerViewAdapte
 
         askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST);
 
-        File[] files = new File(path + "/commandline").listFiles();
+        File[] files = new File(path).listFiles();
 
         if (files == null || files.length < 1) {
-            Toast.makeText(this, path + "/commandline has no text files!", Toast.LENGTH_LONG).show();
+            ((TextView) findViewById(R.id.Title)).setText("\"" + path + "\" has no text files!");
             return; // Can't go on to list files which aren't there.
         }
 
@@ -79,7 +75,6 @@ public class MainActivity extends FragmentActivity implements RecyclerViewAdapte
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
             }
         } else {
-//            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
             Log.v("MainActivity", "" + permission + " is already granted.");
         }
     }
@@ -88,29 +83,29 @@ public class MainActivity extends FragmentActivity implements RecyclerViewAdapte
     public void onItemClick(int position) {
         askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, WRITE_EXST);
 
-        String source = path + "/commandline/" + mAdapter.strings[position];
-        String destination = path + "/commandline.txt";
+        String source = FilenameUtils.concat(
+                path,
+                mAdapter.strings[position]
+        );
         try {
-            copyFile(new File(source), new File(destination));
-            Toast.makeText(this, "SUCCESS: overwrote commandline.txt with \"" + mAdapter.strings[position] + "\"", Toast.LENGTH_LONG).show();
+            copy(new File(source), new File(dest));
+            ((TextView) findViewById(R.id.Title)).setText("SUCCESS: \"" + mAdapter.strings[position] + "\"");
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "FAILED to copy \"" + source + "\" to \"" + destination + "\"!", Toast.LENGTH_LONG).show();
+            ((TextView) findViewById(R.id.Title)).setText("FAILED to copy \"" + mAdapter.strings[position] + "\"!");
         }
     }
 
-    public static void copyFile(File sourceFile, File destFile) throws IOException {
-        if (!destFile.getParentFile().exists()) destFile.getParentFile().mkdirs();
-        if (!destFile.exists()) destFile.createNewFile();
-        FileChannel source = null;
-        FileChannel destination = null;
+    public static void copy(File src, File dst) throws IOException {
+        InputStream in = null;
+        OutputStream out = null;
         try {
-            source = new FileInputStream(sourceFile).getChannel();
-            destination = new FileOutputStream(destFile).getChannel();
-            destination.transferFrom(source, 0, source.size());
+            in = new FileInputStream(src);
+            out = new FileOutputStream(dst);
+            IOUtils.copy(in, out);
         } finally {
-            if (source != null) source.close();
-            if (destination != null) destination.close();
+            if (in != null) in.close();
+            if (out != null) out.close();
         }
     }
 }
