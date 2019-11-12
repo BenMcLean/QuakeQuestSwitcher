@@ -1,0 +1,1 @@
+quake -game startrek --supersampling 1.3

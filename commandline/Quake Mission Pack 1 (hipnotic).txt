@@ -1,0 +1,1 @@
+quake -game hipnotic --supersampling 1.3

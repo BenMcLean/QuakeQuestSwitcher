@@ -1,0 +1,1 @@
+quake -game dopa --supersampling 1.3
