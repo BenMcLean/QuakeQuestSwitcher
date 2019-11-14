@@ -1,1 +1,1 @@
-quake -game matrix --supersampling 1.3
+quake -game matrix +map start --supersampling 1.3
