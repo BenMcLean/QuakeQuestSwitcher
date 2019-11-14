@@ -1,0 +1,1 @@
+quake -game nehahra +map nehstart --supersampling 1.3
