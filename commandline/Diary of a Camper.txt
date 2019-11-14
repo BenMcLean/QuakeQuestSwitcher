@@ -1,0 +1,1 @@
+quake +playdemo CAMPER3 --supersampling 1.3
