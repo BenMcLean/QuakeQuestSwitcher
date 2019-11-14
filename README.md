@@ -2,13 +2,15 @@ QuakeQuestSwitcher is a very simple bare bones super lazy Android app with only 
 
 Command line options for QuakeQuest are controlled in `/QuakeQuest/commandline.txt`. QuakeQuestSwitcher goes looking in the `/QuakeQuest/commandline/` folder for any files ending with `.txt` to display a menu of the files. You click on which file you want, and QuakeQuestSwitcher will replace `commandline.txt` with that file. The next time you start QuakeQuest, it will load with the command line options in that file, enabling you to play other Quake engine games!
 
-Of course, you need to put the games on the internal storage in your Quest yourself. But here are a list of games I have got working!
+Of course, you need to put the games on the internal storage in your Quest yourself. Then, you'll need to make a `/QuakeQuest/commandline/` folder and place text files containing the appropriate commands there for QuakeQuestSwitcher to choose from. [I've included the ones I'm using](https://github.com/BenMcLean/QuakeQuestSwitcher/tree/master/commandline).
+
+### Games that work on QuakeQuest
 
 |Game|Folder|Command|
 |---|---|---|
 |Quake|`/QuakeQuest/id1/`|`quake --supersampling 1.3`|
 |Quake Mission Pack 1: Scourge of Armagon|`/QuakeQuest/hipnotic/`|`quake -game hipnotic --supersampling 1.3`|
-|Quake Mission Pack 2: Dissolution of Eternity|`/QuakeQuest/rogue/`|quake -game rogue --supersampling 1.3|
+|Quake Mission Pack 2: Dissolution of Eternity|`/QuakeQuest/rogue/`|`quake -game rogue --supersampling 1.3`|
 |Quake Mission Pack 3: Abyss of Pandemonium|`/QuakeQuest/aop/`|`quake -game aop --supersampling 1.3`|
 |[QUAKE Episode 5: Dimension of the Past](https://archive.org/details/Quake_Episode_5_Dimension_of_the_past)|`/QuakeQuest/dopa/`|`quake -game dopa --supersampling 1.3`|
 |[Star Trek Quake](http://www.gamers.org/pub/idgames2/total_conversions/ncc1701d.zip)|`/QuakeQuest/startrek/`|`quake -game startrek +map ncc1701d --supersampling 1.3`|
