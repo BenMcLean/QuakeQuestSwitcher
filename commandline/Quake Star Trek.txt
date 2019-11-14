@@ -1,1 +1,1 @@
-quake -game startrek --supersampling 1.3
+quake -game startrek +map ncc1701d --supersampling 1.3
