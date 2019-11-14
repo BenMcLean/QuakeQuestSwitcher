@@ -15,6 +15,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
+import java.util.Arrays;
 
 public class MainActivity extends FragmentActivity implements RecyclerViewAdapter.OnItemListener {
     private String path = FilenameUtils.concat(
@@ -59,6 +60,7 @@ public class MainActivity extends FragmentActivity implements RecyclerViewAdapte
         String[] listFiles = new String[files.length];
         for (int x = 0; x < listFiles.length; x++)
             listFiles[x] = files[x].getName();
+        Arrays.sort(listFiles);
 
         mAdapter = new RecyclerViewAdapter(this, listFiles, this);
         recyclerView.setAdapter(mAdapter);
